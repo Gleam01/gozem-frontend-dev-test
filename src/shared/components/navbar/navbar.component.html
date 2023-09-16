@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-md bg-white">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="">
+      <img src="../../../assets/images/logo.png" class="logo" alt="Gozem Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarItems" aria-controls="navbarItems" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse d-flex align-items-center" id="navbarItems">
+      <ul class="navbar-nav me-auto d-flex align-items-center">
+        <li class="nav-item me-4" *ngFor="let item of menuItems">
+          <a class="nav-link d-inline-flex align-items-center" [routerLink]="item.link" routerLinkActive="active">
+            <img [src]="item.icon" [alt]="item.text + ' icon'">
+            <span class="ms-2">{{ item.text }}</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="ms-auto d-flex align-items-center">
+        <li class="menu-item-super">
+          <a class="position-relative">
+            <img src="../../../assets/images/chat.svg" alt="Chat icon">
+            <span class="top-circle"></span>
+          </a>
+        </li>
+        <li class="menu-item-super">
+          <a class="position-relative">
+            <img src="../../../assets/images/hexagon.svg" alt="Hexagon icon">
+            <span class="top-circle"></span>
+          </a>
+        </li>
+        <li class="menu-item-super notifications-link position-relative">
+          <a class="">
+            <img src="../../../assets/images/notifications.svg" alt="Notifications icon" class="notifications-img">
+            <span class="top-circle notifications">2</span>
+          </a>
+        </li>
+        <li class="menu-item-super">
+          <a class="position-relative badge bg-primary d-inline-flex align-items-center">
+            <img src="../../../assets/images/badge.svg" alt="Badge icon" class="badge-img">
+            <span class="ms-2">300K</span>
+            <span class="top-circle"></span>
+          </a>
+        </li>
+        <li class="menu-item-super">
+          <a>
+            <img src="../../../assets/images/user.svg" alt="User icon">
+          </a>
+        </li>
+        <li class="menu-item-super">
+          <a>
+            <img src="../../../assets/images/navigation-menu-vertical.svg" alt="Menu icon">
+          </a>
+        </li>
+      </div>
+    </div>
+  </div>
+</nav>
