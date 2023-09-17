@@ -1,0 +1,104 @@
+<div class="d-flex flex-column align-items-center">
+  <img src="../../assets/images/testimonials.svg" alt="Testimonials" class="testimonials">
+  <h1 class="d-flex align-items-center">
+    <span>Testimonials I've left</span>
+    <span class="badge ms-2">47</span>
+  </h1>
+  <img class="separator" src="../../assets/images/separator.svg" alt="Separator">
+</div>
+
+<div class="data-card">
+  <div class="filters-container d-flex flex-column flex-lg-row align-items-lg-center">
+    <div class="d-flex align-items-lg-center">
+      <a nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="'click'" [nzClickHide]="false" [(nzVisible)]="visible">
+        <img [src]="selectedLanguage?.icon_url ?? '../../assets/images/all-languages.png' " alt="All languages icon" class="dropdown-image">
+        <span nz-icon [nzType]="visible ? 'up' : 'down'"></span>
+      </a>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>
+            <nz-radio-group [(ngModel)]="selectedLanguage" (ngModelChange)="onClickLanguage($event)">
+              <label nz-radio [nzValue]="language" *ngFor="let language of languages">
+                <div class="option">
+                  <img [src]="language.icon_url" [alt]="language.title + ' icon'">
+                  <span class="title">{{ language.title }}</span>
+                  <span class="ms-auto">27</span>
+                </div>
+              </label>
+            </nz-radio-group>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+
+      <nz-input-group [nzPrefix]="prefixIcon">
+        <input type="search" nz-input placeholder="Filter by exercise title" />
+      </nz-input-group>
+      <ng-template #prefixIcon>
+        <span nz-icon nzType="search"></span>
+      </ng-template>
+    </div>
+
+    <nz-select [(ngModel)]="sortBy" class="ms-lg-auto mt-3 mt-lg-0 d-inline-block">
+      <nz-option nzValue="newest_first" nzLabel="Sort by Most Recent"></nz-option>
+      <nz-option nzValue="oldest_first" nzLabel="Sort by Most Old"></nz-option>
+    </nz-select>
+  </div>
+
+  <nz-table #basicTable [nzData]="testimonials" nzTableLayout="fixed" [nzItemRender]="paginationTpl">
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>User</th>
+        <th>Testimonial</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td width="8rem">
+          <img class="language" src="../../assets/images/all-languages.png" alt="Language icon">
+        </td>
+        <td>
+          <div class="d-flex align-items-center user-infos">
+            <img src="../../assets/images/user.svg" alt="User icon">
+            <div>
+              <h3>ynfle</h3>
+              <p>on Series in Bash</p>
+            </div>
+          </div>
+        </td>
+        <td nzEllipsis class="description">
+          Very kind mentor who has patience to explain everything I am not s...Very kind mentor who has patience to explain everything I am not s...Very kind mentor who has patience to explain everything I am not s...
+        </td>
+        <td>
+          <div class="d-flex align-items-center date">
+            <span>an hour ago</span>
+            <span nz-icon nzType="right" nzTheme="outline" class="ms-auto"></span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+
+    <ng-template #paginationTpl let-type let-page="page">
+      <ng-container [ngSwitch]="type">
+        <a *ngSwitchCase="'page'">
+          <span>{{ page }}</span>
+        </a>
+        <a *ngSwitchCase="'prev'" class="d-flex align-items-center">
+          <span nz-icon nzType="arrow-left" nzTheme="outline" class="me-2"></span>
+          <span>Previous</span>
+        </a>
+        <a *ngSwitchCase="'next'" class="d-flex align-items-center">
+          <span>Next</span>
+          <span nz-icon nzType="arrow-right" nzTheme="outline" class="ms-2"></span>
+        </a>
+        <a *ngSwitchCase="'prev_5'">
+          <span>...</span>
+        </a>
+        <a *ngSwitchCase="'next_5'">
+          <span>...</span>
+        </a>
+      </ng-container>
+    </ng-template>
+  </nz-table>
+</div>
