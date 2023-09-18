@@ -110,11 +110,12 @@
     </ng-template>
 
     <ng-template #noResultTpl>
-      <ng-container *ngIf="isLoadingTestimonials">
+      <ng-container *ngIf="isLoadingTestimonials && !isTestimonialsServerError">
       </ng-container>
-      <ng-container *ngIf="!isLoadingTestimonials">
+      <ng-container *ngIf="!isLoadingTestimonials && !isTestimonialsServerError && !testimonials.length">
         <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="'No data record.'"></nz-empty>
       </ng-container>
+      <nz-empty nzNotFoundImage="simple" *ngIf="isTestimonialsServerError && !isLoadingTestimonials" [nzNotFoundContent]="'An error occurred when fetching testimonials list, please contact Gozem administrator (hr@gozem.com) to get a solution.'"></nz-empty>
     </ng-template>
 
   </nz-table>

@@ -1,6 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Subscription, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import {
+  Subject,
+  Subscription,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs';
 import { IPagination } from 'src/models/igeneric.model';
 import { ILanguage } from 'src/models/ilanguage.model';
 import { ITestimonial } from 'src/models/itestimonials.model';
@@ -32,24 +39,31 @@ export class TestimonialsComponent implements OnInit, OnDestroy {
   testimonials!: ITestimonial[];
   private searchText$ = new Subject<string>();
   searchText!: string;
+  isTestimonialsServerError = false;
+  isLanguageServerError = false;
 
-  constructor(private language: LanguageService, private testimonial: TestimonialService, private router: Router) {}
+  constructor(
+    private language: LanguageService,
+    private testimonial: TestimonialService,
+    private router: Router,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit(): void {
     this.getLanguages();
     this.getTestimonials(this.buildFilteringQueryString(1));
 
     // Prevent multiple api calls when searching testimonials by exercise
-    this.searchText$.pipe(
-      debounceTime(500),
-      distinctUntilChanged()).subscribe
-      ((exercise) => {
+    this.searchText$
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((exercise) => {
         this.searchText = exercise;
-        this.getTestimonials(this.buildFilteringQueryString(1))
+        this.getTestimonials(this.buildFilteringQueryString(1));
       });
   }
 
   getLanguages() {
+    this.isLanguageServerError = false;
     this.subscription.add(
       this.language.getLanguages().subscribe({
         next: (data) => {
@@ -63,8 +77,18 @@ export class TestimonialsComponent implements OnInit, OnDestroy {
           this.languages.unshift(this.genericAllLanguage);
         },
         error: (error) => {
-
-        }
+          this.isLanguageServerError = true;
+          this.languages = [this.genericAllLanguage];
+          if (error?.status !== 0) {
+            this.message.create(
+              'error',
+              'An error occurred when fetching languages list, please contact Gozem administrator (hr@gozem.com) to get a solution.',
+              {
+                nzDuration: 5000,
+              }
+            );
+          }
+        },
       })
     );
   }
@@ -78,6 +102,19 @@ export class TestimonialsComponent implements OnInit, OnDestroy {
           this.testimonials = data.data;
           this.paginationData = data.pagination;
         },
+        error: (error) => {
+          this.isLoadingTestimonials = false;
+          this.isTestimonialsServerError = true;
+          if (error?.status !== 0) {
+            this.message.create(
+              'error',
+              'An error occurred when fetching testimonials list, please contact Gozem administrator (hr@gozem.com) to get a solution.',
+              {
+                nzDuration: 7000,
+              }
+            );
+          }
+        },
       })
     );
   }
@@ -85,10 +122,12 @@ export class TestimonialsComponent implements OnInit, OnDestroy {
   buildFilteringQueryString(page: number) {
     let queryString = `?page=${page}`;
     if (this.sortBy) {
-      queryString = queryString.concat(`&order=${this.sortBy}`)
+      queryString = queryString.concat(`&order=${this.sortBy}`);
     }
     if (this.selectedLanguage.slug !== 'all') {
-      queryString = queryString.concat(`&language=${this.selectedLanguage.slug}`)
+      queryString = queryString.concat(
+        `&language=${this.selectedLanguage.slug}`
+      );
     }
     if (this.searchText) {
       queryString = queryString.concat(`&exercise=${this.searchText}`);
@@ -103,7 +142,7 @@ export class TestimonialsComponent implements OnInit, OnDestroy {
 
   onClickLanguage(event: any) {
     this.visible = false;
-    this.onGetPageData(1)
+    this.onGetPageData(1);
   }
 
   search(exercise: string) {
@@ -119,6 +158,6 @@ export class TestimonialsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

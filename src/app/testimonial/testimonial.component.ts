@@ -26,11 +26,11 @@ export class TestimonialComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.testimonialId = params['testimonialId'];
-      this.getTestimonials(this.testimonialId);
+      this.getTestimonial(this.testimonialId);
     });
   }
 
-  getTestimonials(id: string) {
+  getTestimonial(id: string) {
     this.isServerError = false;
     this.isLoadingTestimonial = true;
     this.subscription.add(
@@ -39,21 +39,13 @@ export class TestimonialComponent implements OnInit, OnDestroy {
           this.isLoadingTestimonial = false;
           this.testimonial = data;
         },
-        error: (err) => {
+        error: (error) => {
           this.isLoadingTestimonial = false;
           this.isServerError = true;
-          if (err?.status === 0) {
+          if (error?.status !== 0) {
             this.message.create(
               'error',
-              'Please check your internet connection and try again.',
-              {
-                nzDuration: 5000,
-              }
-            );
-          } else {
-            this.message.create(
-              'error',
-              'An error occurred, please contact Gozem administrator (hr@gozem.com) to get a solution.',
+              'An error occurred when fetching testimonial details, please contact Gozem administrator (hr@gozem.com) to get a solution.',
               {
                 nzDuration: 5000,
               }

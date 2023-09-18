@@ -8,10 +8,11 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(private message: NzMessageService) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -32,6 +33,15 @@ export class ErrorInterceptor implements HttpInterceptor {
       }),
       catchError((error: HttpErrorResponse) => {
         switch (error.status) {
+          case 0:
+            this.message.create(
+              'error',
+              'Please check your internet connection and try again.',
+              {
+                nzDuration: 5000,
+              }
+            );
+            break;
           case 401:
             // Auto logout if 401 response returned from api
             break;
