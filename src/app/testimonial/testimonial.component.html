@@ -1,0 +1,38 @@
+<div class="d-flex flex-column align-items-center">
+  <img src="../../assets/images/testimonials.svg" alt="Testimonials" class="testimonials">
+  <h1 class="d-flex align-items-center">
+    <span>Testimonial details</span>
+  </h1>
+  <img class="separator" src="../../assets/images/separator.svg" alt="Separator">
+</div>
+
+<div class="data-card">
+  <nz-skeleton [nzActive]="isLoadingTestimonial" [nzLoading]="isLoadingTestimonial && !isServerError"></nz-skeleton>
+
+  <nz-descriptions nzTitle="" *ngIf="!isLoadingTestimonial && !isServerError">
+    <nz-descriptions-item nzTitle="Language">
+      <div class="d-flex align-items-center">
+        <img [src]="testimonial?.language?.icon_url ?? '../../assets/images/all-languages.png'" alt="Language icon" class="language">
+        <span class="ms-3"> {{ testimonial?.language?.title }} </span>
+      </div>
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Exercise">
+      <div class="d-flex align-items-center">
+        <img [src]="testimonial?.exercise?.icon_url ?? '../../assets/images/all-languages.png'" alt="Exercise icon" class="language">
+        <span class="ms-3"> {{ testimonial?.exercise?.title }} </span>
+      </div>
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Mentor">
+      <div class="d-flex align-items-center">
+        <img [src]="'../../assets/images/user.svg'" alt="User icon" class="language">
+        <span class="ms-3"> {{ testimonial?.mentor }} </span>
+      </div>
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Testimonial"> {{ testimonial?.content }} </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Added since">
+      {{ testimonial?.created_at | dateAgo }}
+    </nz-descriptions-item>
+  </nz-descriptions>
+
+  <nz-empty nzNotFoundImage="simple" *ngIf="isServerError && !isLoadingTestimonial" [nzNotFoundContent]="'An error occurred, please contact Gozem administrator (hr@gozem.com) to get a solution.'"></nz-empty>
+</div>

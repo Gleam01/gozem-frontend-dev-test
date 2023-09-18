@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
+import { TestimonialComponent } from './testimonial/testimonial.component';
 
 import { SharedModule } from 'src/shared/shared.module';
 
@@ -23,11 +24,14 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 registerLocaleData(fr);
 
 @NgModule({
-  declarations: [AppComponent, TestimonialsComponent],
+  declarations: [AppComponent, TestimonialsComponent, TestimonialComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -42,6 +46,9 @@ registerLocaleData(fr);
     NzInputModule,
     NzTableModule,
     NzEmptyModule,
+    NzDescriptionsModule,
+    NzSkeletonModule,
+    NzMessageModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: fr_FR }, ...interceptorsExports],
   bootstrap: [AppComponent],

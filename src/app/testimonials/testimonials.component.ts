@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { IPagination } from 'src/models/igeneric.model';
@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: './testimonials.component.html',
   styleUrls: ['./testimonials.component.scss'],
 })
-export class TestimonialsComponent implements OnInit {
+export class TestimonialsComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   visible = false;
   genericAllLanguage: ILanguage = {
@@ -116,5 +116,9 @@ export class TestimonialsComponent implements OnInit {
 
   onSeeTestimonialDetails(testimonial: ITestimonial) {
     this.router.navigate([`/testimonial/${testimonial.id}`]);
+  }
+
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe();
   }
 }
