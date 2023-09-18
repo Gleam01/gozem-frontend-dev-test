@@ -312,6 +312,7 @@ h1 {
   tr {
     height: 4rem;
     width: 100%;
+    cursor: pointer;
 
     &:hover {
       background-color: #F4F7FD;
@@ -329,6 +330,7 @@ h1 {
   }
 
   tr td:last-child {
+    width: 11rem;
     padding-right: 1.5rem;
   }
 
@@ -439,6 +441,16 @@ h1 {
 
   .ant-pagination-disabled, .ant-pagination-disabled:hover {
     background: #E0E0ED;
+  }
+
+  .ant-spin-nested-loading>div>.ant-spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .nz-disable-td {
+    border-bottom: none !important;
+    color: var(--bs-danger);
   }
 
   @media all and (max-width: 992px) {
