@@ -1,9 +1,9 @@
 export interface ILanguage {
-  id: string;
-  created_at: Date;
-  updated_at: Date;
+  id?: string;
+  created_at?: Date | string;
+  updated_at?: Date | string;
   title: string;
   icon_url: string;
   slug: string;
-  num_exercises: number;
+  num_exercises?: number;
 }

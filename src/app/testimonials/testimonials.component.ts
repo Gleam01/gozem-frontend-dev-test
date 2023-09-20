@@ -70,7 +70,7 @@ export class TestimonialsComponent implements OnInit, OnDestroy {
           this.languages = data.data;
           this.genericAllLanguage.num_exercises = this.languages.reduce(
             (accumulator, object) => {
-              return accumulator + object.num_exercises;
+              return accumulator + object.num_exercises!;
             },
             0
           );

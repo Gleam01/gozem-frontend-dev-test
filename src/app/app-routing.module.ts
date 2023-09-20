@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',

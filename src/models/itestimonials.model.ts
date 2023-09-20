@@ -2,7 +2,7 @@ import { ILanguage } from './ilanguage.model';
 
 export interface ITestimonial {
   id: string;
-  created_at: Date;
+  created_at: Date | string;
   language: ILanguage;
   exercise: IExercise;
   content: string;
